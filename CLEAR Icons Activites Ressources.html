@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CLEAR — Icônes Activités & Ressources Moodle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap"/>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --blue:#1F6F9E; --blue-d:#0e3d5e; --blue2:#2C8FBF;
+    --cyan:#4FB6D6; --cyan-l:#a8dff0;
+    --green:#8CBF3F; --green2:#A3CF5A;
+    --bg:#F2F2F2; --border:#D9D9D9; --ink:#0d1a26;
+  }
+  body{font-family:'Open Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding:32px}
+  header{max-width:1280px;margin:0 auto 28px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .meta-title{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;color:#999;text-transform:uppercase;margin-bottom:6px}
+  .meta-h1{font-family:'Montserrat',sans-serif;font-size:22px;font-weight:800;color:var(--blue-d)}
+  .meta-h1 small{font-weight:400;color:#888;font-size:14px;display:block;margin-top:4px}
+
+  .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .btn{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:.04em;padding:10px 18px;border-radius:8px;border:none;cursor:pointer;transition:all .18s}
+  .btn-primary{background:var(--blue);color:#fff}
+  .btn-primary:hover{background:var(--blue2)}
+  .btn-outline{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+  .btn-outline:hover{background:#eef6fb}
+
+  .style-switcher{display:flex;background:#fff;border:1px solid var(--border);border-radius:8px;padding:3px;gap:2px}
+  .style-switcher button{
+    font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;
+    border:none;background:transparent;color:#777;padding:7px 14px;border-radius:6px;
+    cursor:pointer;letter-spacing:.04em;
+  }
+  .style-switcher button.active{background:var(--blue);color:#fff}
+
+  main{max-width:1280px;margin:0 auto}
+  .section-title{
+    font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:.18em;
+    color:#999;text-transform:uppercase;margin:36px 0 18px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .section-title::before, .section-title::after{
+    content:'';flex:1;height:1px;background:var(--border);
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    gap:14px;
+  }
+
+  .icon-card{
+    background:#fff;border:1px solid var(--border);border-radius:12px;
+    padding:24px 16px 16px;display:flex;flex-direction:column;align-items:center;gap:12px;
+    transition:all .18s;cursor:pointer;position:relative;
+  }
+  .icon-card:hover{transform:translateY(-3px);border-color:var(--cyan);box-shadow:0 10px 28px rgba(31,111,158,.10)}
+  .icon-frame{
+    width:88px;height:88px;display:flex;align-items:center;justify-content:center;
+    border-radius:18px;transition:all .18s;
+  }
+  .icon-frame svg{width:48px;height:48px;display:block}
+  .icon-label{
+    font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;
+    color:var(--ink);text-align:center;line-height:1.3;letter-spacing:.02em;
+  }
+  .icon-cat{
+    font-family:'Montserrat',sans-serif;font-size:9px;font-weight:600;
+    color:#aaa;letter-spacing:.12em;text-transform:uppercase;
+  }
+  .dl-mini{
+    position:absolute;top:8px;right:8px;
+    background:transparent;border:none;color:#bbb;cursor:pointer;font-size:14px;
+    width:28px;height:28px;border-radius:6px;
+    transition:all .15s;
+  }
+  .dl-mini:hover{background:#f4f9fc;color:var(--blue)}
+
+  /* ── Style: filled (color background) ─────────────────────────────────── */
+  .style-filled .icon-frame{background:linear-gradient(135deg,var(--ic1),var(--ic2))}
+  .style-filled .icon-frame svg{stroke:#fff;fill:none}
+
+  /* ── Style: outlined (subtle bg) ──────────────────────────────────────── */
+  .style-outlined .icon-frame{background:#f4f9fc;border:1.5px solid var(--ic1);}
+  .style-outlined .icon-frame svg{stroke:var(--ic1);fill:none}
+
+  /* ── Style: duo (soft tint) ───────────────────────────────────────────── */
+  .style-duo .icon-frame{background:color-mix(in oklab,var(--ic1) 14%, white)}
+  .style-duo .icon-frame svg .primary{stroke:var(--ic1)}
+  .style-duo .icon-frame svg .secondary{stroke:var(--ic2);opacity:.55}
+
+  /* Toast */
+  .toast{
+    position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--blue);color:#fff;font-family:'Montserrat',sans-serif;
+    font-size:12px;font-weight:600;padding:10px 22px;border-radius:100px;
+    opacity:0;transition:all .3s;pointer-events:none;z-index:999;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="meta-title">CLEAR · Icon set</div>
+    <div class="meta-h1">Icônes Activités & Ressources<small>Set personnalisé pour Moodle · 24 icônes · charte CLEAR FA</small></div>
+  </div>
+  <div class="controls">
+    <div class="style-switcher" id="style-switcher">
+      <button data-style="filled" class="active">Plein</button>
+      <button data-style="outlined">Contour</button>
+      <button data-style="duo">Duotone</button>
+    </div>
+    <button class="btn btn-outline" id="btn-zip-svg" onclick="exportAllZip('svg', this)">⬇ Tout en SVG (ZIP)</button>
+    <button class="btn btn-primary" id="btn-zip-png" onclick="exportAllZip('png', this)">⬇ Tout en PNG (ZIP)</button>
+  </div>
+</header>
+
+<main>
+  <div class="section-title" data-cat="activities">Activités</div>
+  <div class="grid" id="grid-activities"></div>
+
+  <div class="section-title" data-cat="resources">Ressources</div>
+  <div class="grid" id="grid-resources"></div>
+
+  <div class="section-title" data-cat="evaluation">Évaluation & progression</div>
+  <div class="grid" id="grid-evaluation"></div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// Color palette mapped to function (1 couleur = 1 fonction)
+const C = {
+  blue: ['#1F6F9E','#2C8FBF'],
+  cyan: ['#2C8FBF','#4FB6D6'],
+  green:['#8CBF3F','#A3CF5A'],
+  deep: ['#0e3d5e','#1F6F9E'],
+};
+
+// ── Icon definitions ────────────────────────────────────────────────────────
+// Each draw function returns inner SVG (24x24 viewBox). Stroke styling applied via CSS class.
+const ICONS = {
+  // ── ACTIVITÉS ─────────────────────────────────────────────────────────────
+  activities: [
+    {id:'quiz', label:'Quiz', cat:'Activité', color:C.cyan, draw:`
+      <circle cx="12" cy="12" r="9" class="primary" stroke-width="1.7"/>
+      <path d="M9 9 a3 3 0 0 1 6 0 c0 1.5 -1.5 2 -3 3" class="primary" fill="none" stroke-width="1.7" stroke-linecap="round"/>
+      <circle cx="12" cy="17" r="1" class="primary" fill="currentColor" stroke="none"/>
+    `},
+    {id:'devoir', label:'Devoir', cat:'Activité', color:C.blue, draw:`
+      <rect x="5" y="3" width="13" height="18" rx="2" class="primary" stroke-width="1.7"/>
+      <path d="M8 8 h7" class="primary" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M8 12 h7" class="secondary" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M8 16 h4" class="secondary" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M16 17 l3 3 -1.5 1.5 -3 -3 z" class="primary" stroke-width="1.5" fill="none"/>
+    `},
+    {id:'forum', label:'Forum', cat:'Activité', color:C.green, draw:`
+      <path d="M3 7 a2 2 0 0 1 2 -2 h9 a2 2 0 0 1 2 2 v6 a2 2 0 0 1 -2 2 h-5 l-4 3 v-3 h-0 a2 2 0 0 1 -2 -2 z" class="primary" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M9 9 h5 M9 11 h3" class="primary" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M19 11 a2 2 0 0 1 2 2 v4 a2 2 0 0 1 -2 2 h-1 v2 l-3 -2 h-3 a2 2 0 0 1 -2 -2" class="secondary" stroke-width="1.5" stroke-linejoin="round" opacity=".6"/>
+    `},
+    {id:'chat', label:'Chat', cat:'Activité', color:C.cyan, draw:`
+      <path d="M4 6 a2 2 0 0 1 2 -2 h12 a2 2 0 0 1 2 2 v8 a2 2 0 0 1 -2 2 h-9 l-5 4 v-4 a2 2 0 0 1 -2 -2 z" class="primary" stroke-width="1.7" stroke-linejoin="round"/>
+      <circle cx="9" cy="10" r=".9" class="primary" fill="currentColor" stroke="none"/>
+      <circle cx="12" cy="10" r=".9" class="primary" fill="currentColor" stroke="none"/>
+      <circle cx="15" cy="10" r=".9" class="primary" fill="currentColor" stroke="none"/>
+    `},
+    {id:'sondage', label:'Sondage', cat:'Activité', color:C.green, draw:`
+      <path d="M4 20 V12" class="primary" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M10 20 V8" class="primary" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M16 20 V14" class="primary" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M22 20 V4" class="secondary" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M3 20 h20" class="primary" stroke-width="1.5" stroke-linecap="round"/>
+    `},
+    {id:'atelier', label:'Atelier', cat:'Activité', color:C.blue, draw:`
+      <circle cx="12" cy="8" r="3" class="primary" stroke-width="1.7"/>
+      <circle cx="6" cy="11" r="2.2" class="secondary" stroke-width="1.5"/>
+      <circle cx="18" cy="11" r="2.2" class="secondary" stroke-width="1.5"/>
+      <path d="M5 20 c0 -3 2 -5 7 -5 s7 2 7 5" class="primary" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+    `},
+    {id:'glossaire', label:'Glossaire', cat:'Activité', color:C.cyan, draw:`
+      <path d="M5 4 h11 a3 3 0 0 1 3 3 v13 a1 1 0 0 1 -1 1 H7 a3 3 0 0 1 -3 -3 V5 a1 1 0 0 1 1 -1 z" class="primary" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M4 18 a3 3 0 0 1 3 -3 h11" class="primary" stroke-width="1.5" fill="none"/>
+      <path d="M9 9 h6 M9 12 h4" class="secondary" stroke-width="1.5" stroke-linecap="round"/>
+    `},
+    {id:'wiki', label:'Wiki', cat:'Activité', color:C.green, draw:`
+      <path d="M3 6 v10 l4 4 V10 z" class="primary" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M9 8 v10 l4 4 V12 z" class="primary" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M15 6 v10 l4 4 V10 z" class="secondary" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M3 6 l4 4 M9 8 l4 4 M15 6 l4 4" class="secondary" stroke-width="1.4" opacity=".6"/>
+    `},
+  ],
+
+  // ── RESSOURCES ────────────────────────────────────────────────────────────
+  resources: [
+    {id:'video', label:'Vidéo', cat:'Ressource', color:C.deep, draw:`
+      <rect x="3" y="5" width="18" height="14" rx="2" class="primary" stroke-width="1.7"/>
+      <polygon points="10,9 16,12 10,15" class="primary" fill="currentColor" stroke="none"/>
+    `},
+    {id:'audio', label:'Audio', cat:'Ressource', color:C.cyan, draw:`
+      <path d="M5 14 V10 a1 1 0 0 1 1 -1 h2 l4 -3 v12 l-4 -3 H6 a1 1 0 0 1 -1 -1 z" class="primary" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M16 9 a4 4 0 0 1 0 6" class="secondary" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+      <path d="M18.5 7 a7 7 0 0 1 0 10" class="secondary" stroke-width="1.7" stroke-linecap="round" fill="none" opacity=".6"/>
+    `},
+    {id:'pdf', label:'PDF', cat:'Ressource', color:C.blue, draw:`
+      <path d="M6 3 h8 l5 5 v12 a1 1 0 0 1 -1 1 H6 a1 1 0 0 1 -1 -1 V4 a1 1 0 0 1 1 -1 z" class="primary" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M14 3 v5 h5" class="secondary" stroke-width="1.5"/>
+      <path d="M9 14 h6 M9 17 h4" class="secondary" stroke-width="1.5" stroke-linecap="round"/>
+    `},
+    {id:'page', label:'Page', cat:'Ressource', color:C.cyan, draw:`
+      <rect x="5" y="3" width="14" height="18" rx="2" class="primary" stroke-width="1.7"/>
+      <path d="M8 8 h8 M8 12 h8 M8 16 h5" class="secondary" stroke-width="1.5" stroke-linecap="round"/>
+    `},
+    {id:'lien', label:'Lien URL', cat:'Ressource', color:C.green, draw:`
+      <path d="M10 14 a4 4 0 0 1 0 -5.5 l3 -3 a4 4 0 0 1 5.5 5.5 l-1.5 1.5" class="primary" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+      <path d="M14 10 a4 4 0 0 1 0 5.5 l-3 3 a4 4 0 0 1 -5.5 -5.5 l1.5 -1.5" class="secondary" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+    `},
+    {id:'dossier', label:'Dossier', cat:'Ressource', color:C.blue, draw:`
+      <path d="M3 7 a2 2 0 0 1 2 -2 h4 l2 2 h8 a2 2 0 0 1 2 2 v9 a2 2 0 0 1 -2 2 H5 a2 2 0 0 1 -2 -2 z" class="primary" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M3 11 h18" class="secondary" stroke-width="1.4"/>
+    `},
+    {id:'image', label:'Image', cat:'Ressource', color:C.cyan, draw:`
+      <rect x="3" y="4" width="18" height="16" rx="2" class="primary" stroke-width="1.7"/>
+      <circle cx="8.5" cy="9.5" r="1.5" class="primary" stroke-width="1.5"/>
+      <path d="M4 17 l5 -5 4 4 3 -3 4 4" class="secondary" stroke-width="1.6" stroke-linejoin="round" fill="none"/>
+    `},
+    {id:'livre', label:'Livre', cat:'Ressource', color:C.deep, draw:`
+      <path d="M4 5 a1 1 0 0 1 1 -1 h6 a3 3 0 0 1 3 3 v13 a3 3 0 0 0 -3 -3 H5 a1 1 0 0 1 -1 -1 z" class="primary" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M20 5 a1 1 0 0 0 -1 -1 h-6 a3 3 0 0 0 -3 3 v13 a3 3 0 0 1 3 -3 h6 a1 1 0 0 0 1 -1 z" class="secondary" stroke-width="1.7" stroke-linejoin="round"/>
+    `},
+  ],
+
+  // ── ÉVALUATION & PROGRESSION ──────────────────────────────────────────────
+  evaluation: [
+    {id:'progression', label:'Progression', cat:'Suivi', color:C.green, draw:`
+      <path d="M4 18 V6 M4 18 H20" class="primary" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M7 14 l3 -3 3 2 4 -5" class="primary" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <circle cx="17" cy="8" r="1.6" class="primary" fill="currentColor" stroke="none"/>
+    `},
+    {id:'objectif', label:'Objectif', cat:'Suivi', color:C.blue, draw:`
+      <circle cx="12" cy="12" r="9" class="primary" stroke-width="1.7"/>
+      <circle cx="12" cy="12" r="5.5" class="secondary" stroke-width="1.5"/>
+      <circle cx="12" cy="12" r="2" class="primary" fill="currentColor" stroke="none"/>
+    `},
+    {id:'note', label:'Note', cat:'Évaluation', color:C.cyan, draw:`
+      <path d="M12 3 l2.6 5.6 6 .6 -4.6 4.2 1.4 6 -5.4 -3.2 -5.4 3.2 1.4 -6 -4.6 -4.2 6 -.6 z" class="primary" stroke-width="1.6" stroke-linejoin="round"/>
+    `},
+    {id:'completion', label:'Complétion', cat:'Suivi', color:C.green, draw:`
+      <circle cx="12" cy="12" r="9" class="primary" stroke-width="1.7"/>
+      <path d="M8 12 l3 3 5 -6" class="primary" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    `},
+    {id:'temps', label:'Temps', cat:'Suivi', color:C.cyan, draw:`
+      <circle cx="12" cy="12" r="9" class="primary" stroke-width="1.7"/>
+      <path d="M12 7 V12 L15 14" class="primary" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    `},
+    {id:'feedback', label:'Feedback', cat:'Évaluation', color:C.blue, draw:`
+      <path d="M3 6 a2 2 0 0 1 2 -2 h14 a2 2 0 0 1 2 2 v8 a2 2 0 0 1 -2 2 h-7 l-5 4 v-4 a2 2 0 0 1 -2 -2 z" class="primary" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M8 9 l2 2 5 -5" class="primary" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    `},
+    {id:'certificat', label:'Certificat', cat:'Évaluation', color:C.deep, draw:`
+      <circle cx="12" cy="10" r="6" class="primary" stroke-width="1.7"/>
+      <path d="M9 10 l2 2 4 -4" class="primary" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M8 15 L6 22 L9 20 L12 22 L15 20 L18 22 L16 15" class="secondary" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+    `},
+    {id:'ressources-pack', label:'Module', cat:'Suivi', color:C.green, draw:`
+      <rect x="3" y="3" width="8" height="8" rx="1.5" class="primary" stroke-width="1.7"/>
+      <rect x="13" y="3" width="8" height="8" rx="1.5" class="secondary" stroke-width="1.7"/>
+      <rect x="3" y="13" width="8" height="8" rx="1.5" class="secondary" stroke-width="1.7"/>
+      <rect x="13" y="13" width="8" height="8" rx="1.5" class="primary" stroke-width="1.7"/>
+    `},
+  ],
+};
+
+// ── State ──────────────────────────────────────────────────────────────────
+let currentStyle = 'filled';
+
+// ── Build a single icon's SVG ──────────────────────────────────────────────
+function buildIconSVG(icon, sizePx = 96, style = currentStyle) {
+  const [c1, c2] = icon.color;
+
+  // Style maps to fill / stroke behavior
+  let frameAttr = '', innerStyle = '';
+  let strokeColor = '#fff', frameFill = `linear-gradient(135deg,${c1},${c2})`;
+
+  if(style === 'filled'){
+    strokeColor = '#fff';
+    frameFill = `<defs><linearGradient id="g${icon.id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs><rect width="${sizePx}" height="${sizePx}" rx="${sizePx*.2}" fill="url(#g${icon.id})"/>`;
+  } else if(style === 'outlined'){
+    strokeColor = c1;
+    frameFill = `<rect width="${sizePx}" height="${sizePx}" rx="${sizePx*.2}" fill="#f4f9fc" stroke="${c1}" stroke-width="${sizePx*.018}"/>`;
+  } else { // duo
+    strokeColor = c1;
+    frameFill = `<rect width="${sizePx}" height="${sizePx}" rx="${sizePx*.2}" fill="${tint(c1, .14)}"/>`;
+  }
+
+  // Render inner glyph centered (icon viewBox is 24x24 → scale to sizePx*.5)
+  const glyphSize = sizePx * 0.55;
+  const offset = (sizePx - glyphSize) / 2;
+  const innerSvg = `
+    <g transform="translate(${offset},${offset}) scale(${glyphSize/24})" fill="none" stroke="${strokeColor}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      ${icon.draw.replace(/class="primary"/g, `stroke="${strokeColor}"`).replace(/class="secondary"/g, style==='duo' ? `stroke="${c2}" opacity=".6"` : `stroke="${strokeColor}" opacity=".6"`).replace(/currentColor/g, strokeColor)}
+    </g>
+  `;
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${sizePx}" height="${sizePx}" viewBox="0 0 ${sizePx} ${sizePx}">
+    ${frameFill}
+    ${innerSvg}
+  </svg>`;
+}
+
+function tint(hex, amount) {
+  // mix with white
+  const n = parseInt(hex.slice(1), 16);
+  const r = (n>>16)&0xff, g = (n>>8)&0xff, b = n&0xff;
+  const mix = (c) => Math.round(c + (255-c)*(1-amount));
+  return `rgb(${mix(r)},${mix(g)},${mix(b)})`;
+}
+
+// ── Render grids ───────────────────────────────────────────────────────────
+function render() {
+  for(const cat of Object.keys(ICONS)){
+    const grid = document.getElementById('grid-' + cat);
+    grid.innerHTML = '';
+    ICONS[cat].forEach(icon => {
+      const card = document.createElement('div');
+      card.className = 'icon-card';
+      card.innerHTML = `
+        <button class="dl-mini" title="Télécharger PNG" onclick="event.stopPropagation();downloadIcon('${cat}','${icon.id}','png')">⬇</button>
+        <div class="icon-frame-wrap">${buildIconSVG(icon, 88)}</div>
+        <div class="icon-label">${icon.label}</div>
+        <div class="icon-cat">${icon.cat}</div>
+      `;
+      card.addEventListener('click', () => downloadIcon(cat, icon.id, 'png'));
+      grid.appendChild(card);
+    });
+  }
+}
+
+// ── Export ─────────────────────────────────────────────────────────────────
+function downloadIcon(cat, id, format = 'png', size = 256) {
+  const icon = ICONS[cat].find(x => x.id === id);
+  if(!icon) return;
+  const svg = buildIconSVG(icon, size);
+
+  if(format === 'svg'){
+    const blob = new Blob([svg], {type:'image/svg+xml'});
+    const a = document.createElement('a');
+    a.download = `CLEAR_icon_${cat}_${id}_${currentStyle}.svg`;
+    a.href = URL.createObjectURL(blob);
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast(`${icon.label} (SVG) téléchargé`);
+    return;
+  }
+
+  // PNG
+  const blob = new Blob([svg],{type:'image/svg+xml'});
+  const url = URL.createObjectURL(blob);
+  const img = new Image();
+  img.onload = () => {
+    const c = document.createElement('canvas');
+    c.width = size; c.height = size;
+    c.getContext('2d').drawImage(img, 0, 0);
+    const a = document.createElement('a');
+    a.download = `CLEAR_icon_${cat}_${id}_${currentStyle}_${size}.png`;
+    a.href = c.toDataURL('image/png');
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast(`${icon.label} (PNG ${size}px) téléchargé`);
+  };
+  img.src = url;
+}
+
+function exportAll(format) {
+  let i = 0;
+  for(const cat of Object.keys(ICONS)){
+    ICONS[cat].forEach(icon => {
+      setTimeout(() => downloadIcon(cat, icon.id, format), i * 220);
+      i++;
+    });
+  }
+}
+
+// ── ZIP export (single download — solves browser multi-download blocking) ──
+async function loadJSZip(){
+  if(window.JSZip) return window.JSZip;
+  await new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+    s.onload = res; s.onerror = rej;
+    document.head.appendChild(s);
+  });
+  return window.JSZip;
+}
+
+function svgToPngBlob(svgString, size){
+  return new Promise((resolve, reject) => {
+    const blob = new Blob([svgString], {type:'image/svg+xml'});
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement('canvas');
+      c.width = size; c.height = size;
+      c.getContext('2d').drawImage(img, 0, 0);
+      c.toBlob(b => {
+        URL.revokeObjectURL(url);
+        resolve(b);
+      }, 'image/png');
+    };
+    img.onerror = (e) => { URL.revokeObjectURL(url); reject(e); };
+    img.src = url;
+  });
+}
+
+async function exportAllZip(format, btn){
+  const originalLabel = btn.textContent;
+  btn.disabled = true;
+  try {
+    const JSZip = await loadJSZip();
+    const zip = new JSZip();
+    const entries = [];
+    for(const cat of Object.keys(ICONS)){
+      ICONS[cat].forEach(icon => entries.push({cat, icon}));
+    }
+    const total = entries.length;
+    const size = 256;
+
+    for(let i = 0; i < total; i++){
+      const {cat, icon} = entries[i];
+      const svg = buildIconSVG(icon, size);
+      const filename = `${cat}/CLEAR_${cat}_${icon.id}_${currentStyle}`;
+      if(format === 'svg'){
+        zip.file(`${filename}.svg`, svg);
+      } else {
+        const pngBlob = await svgToPngBlob(svg, size);
+        zip.file(`${filename}.png`, pngBlob);
+      }
+      btn.textContent = `Génération… ${i+1}/${total}`;
+    }
+
+    btn.textContent = 'Compression…';
+    const zipBlob = await zip.generateAsync({type:'blob'});
+    const a = document.createElement('a');
+    a.download = `CLEAR_icons_${currentStyle}_${format}.zip`;
+    a.href = URL.createObjectURL(zipBlob);
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    showToast(`✓ ${total} icônes téléchargées en ZIP`);
+  } catch(err){
+    console.error(err);
+    showToast('Erreur lors de la génération du ZIP');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalLabel;
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── Style switcher ─────────────────────────────────────────────────────────
+document.getElementById('style-switcher').addEventListener('click', (e) => {
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  currentStyle = btn.dataset.style;
+  document.querySelectorAll('#style-switcher button').forEach(b => b.classList.toggle('active', b === btn));
+  render();
+});
+
+render();
+</script>
+</body>
+</html>

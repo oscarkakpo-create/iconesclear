@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<title>CLEAR Icons — Slides</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Arial,sans-serif;background:#222;color:#0d1a26;margin:0}
+  .slide{
+    width:1920px;height:1080px;background:#fff;
+    position:relative;overflow:hidden;
+    display:none;
+    padding:64px 80px;
+  }
+  .slide.active{display:block}
+
+  .head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #1F6F9E;padding-bottom:18px;margin-bottom:36px}
+  .eyebrow{font-family:Arial,sans-serif;font-size:18px;font-weight:700;letter-spacing:.18em;color:#999;text-transform:uppercase;margin-bottom:6px}
+  h1{font-family:Arial,sans-serif;font-size:46px;font-weight:800;color:#0e3d5e;line-height:1.1}
+  h1 small{font-weight:500;color:#888;font-size:22px;display:block;margin-top:6px}
+  .pageno{font-family:Arial,sans-serif;font-size:18px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#1F6F9E;text-align:right}
+  .pageno small{display:block;font-weight:400;color:#999;font-size:14px;letter-spacing:.06em;text-transform:none;margin-top:4px}
+
+  .section-title{
+    font-family:Arial,sans-serif;font-size:18px;font-weight:700;letter-spacing:.18em;
+    color:#666;text-transform:uppercase;margin:30px 0 18px;
+    display:flex;align-items:center;gap:18px;
+  }
+  .section-title::before,.section-title::after{content:'';flex:1;height:1px;background:#D9D9D9}
+
+  .grid{display:grid;grid-template-columns:repeat(8,1fr);gap:14px}
+  .card{background:#fff;border:1px solid #D9D9D9;border-radius:14px;padding:22px 12px 18px;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .card svg{width:96px;height:96px;display:block}
+  .lbl{font-family:Arial,sans-serif;font-size:18px;font-weight:700;color:#0d1a26;text-align:center;line-height:1.2}
+  .cat{font-family:Arial,sans-serif;font-size:13px;font-weight:600;color:#aaa;letter-spacing:.1em;text-transform:uppercase}
+
+  .footer{position:absolute;bottom:36px;left:80px;right:80px;display:flex;justify-content:space-between;border-top:1px solid #D9D9D9;padding-top:18px;font-family:Arial,sans-serif;font-size:14px;color:#999}
+  .footer .left{font-weight:700;color:#1F6F9E}
+
+  /* Cover */
+  .slide.cover{background:linear-gradient(135deg,#0e3d5e 0%, #1F6F9E 60%, #4FB6D6 100%);color:#fff;padding:120px 110px;display:none}
+  .slide.cover.active{display:flex;flex-direction:column;justify-content:center}
+  .cover .accent{width:80px;height:6px;background:#A3CF5A;margin-bottom:36px}
+  .cover .kicker{font-size:20px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;opacity:.75;margin-bottom:24px}
+  .cover h1{font-size:120px;font-weight:800;color:#fff;line-height:1;margin-bottom:32px;letter-spacing:-2px}
+  .cover h1 em{font-style:normal;color:#A3CF5A}
+  .cover .lede{font-size:26px;line-height:1.5;max-width:1000px;opacity:.9;margin-bottom:48px;font-family:Arial,sans-serif}
+  .cover .icons-row{display:flex;gap:18px;margin-bottom:48px}
+  .cover .icons-row svg{width:96px;height:96px}
+  .cover .meta{font-size:18px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;opacity:.75;border-top:1px solid rgba(255,255,255,.25);padding-top:24px}
+
+  /* Palette page */
+  .palette{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:30px}
+  .swatch{border-radius:18px;padding:30px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;min-height:240px;font-family:Arial,sans-serif}
+  .sw-name{font-size:22px;font-weight:700}
+  .sw-hex{font-size:32px;font-weight:800;letter-spacing:.5px}
+  .sw-use{font-size:16px;opacity:.85;margin-top:6px}
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Cover -->
+<section class="slide cover active" data-screen-label="01 Cover">
+  <div class="accent"></div>
+  <div class="kicker">CLEAR FA · MOOC · Identité visuelle</div>
+  <h1>Icônes Moodle<br/><em>Activités & Ressources</em></h1>
+  <div class="lede">Set de 24 icônes vectorielles aux couleurs de la charte CLEAR Evaluation francophone Afrique. Activités, ressources, suivi et évaluation — disponibles en 3 styles.</div>
+  <div class="icons-row" id="cover-icons"></div>
+  <div class="meta">24 icônes · 3 styles · Charte officielle CLEAR FA</div>
+</section>
+
+<!-- Slide 2: Palette -->
+<section class="slide" data-screen-label="02 Palette">
+  <div class="head">
+    <div>
+      <div class="eyebrow">CLEAR FA · Charte couleur</div>
+      <h1>Palette fonctionnelle<small>1 couleur = 1 fonction · usage normalisé pour les icônes</small></h1>
+    </div>
+    <div class="pageno">02 / 05<small>Charte officielle CLEAR</small></div>
+  </div>
+  <div class="palette">
+    <div class="swatch" style="background:#1F6F9E"><div><div class="sw-name">Bleu CLEAR</div><div class="sw-use">Actions principales</div></div><div class="sw-hex">#1F6F9E</div></div>
+    <div class="swatch" style="background:#4FB6D6"><div><div class="sw-name">Cyan pédagogique</div><div class="sw-use">Pédagogie · contenu</div></div><div class="sw-hex">#4FB6D6</div></div>
+    <div class="swatch" style="background:#8CBF3F"><div><div class="sw-name">Vert principal</div><div class="sw-use">Succès · progression</div></div><div class="sw-hex">#8CBF3F</div></div>
+    <div class="swatch" style="background:#0e3d5e"><div><div class="sw-name">Bleu profond</div><div class="sw-use">Certifications</div></div><div class="sw-hex">#0E3D5E</div></div>
+  </div>
+  <div class="footer"><div class="left">CLEAR Evaluation francophone Afrique</div><div>Charte v.MOOC</div></div>
+</section>
+
+<!-- Slides 3-5: 3 styles -->
+<section class="slide" data-screen-label="03 Style Plein" id="s-filled"></section>
+<section class="slide" data-screen-label="04 Style Contour" id="s-outlined"></section>
+<section class="slide" data-screen-label="05 Style Duotone" id="s-duo"></section>
+
+<script>
+const C={blue:['#1F6F9E','#2C8FBF'],cyan:['#2C8FBF','#4FB6D6'],green:['#8CBF3F','#A3CF5A'],deep:['#0e3d5e','#1F6F9E']};
+const ICONS={
+  activities:[
+    {id:'quiz',label:'Quiz',cat:'Activité',color:C.cyan,draw:`<circle cx="12" cy="12" r="9" stroke-width="1.7"/><path d="M9 9 a3 3 0 0 1 6 0 c0 1.5 -1.5 2 -3 3" fill="none" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/>`},
+    {id:'devoir',label:'Devoir',cat:'Activité',color:C.blue,draw:`<rect x="5" y="3" width="13" height="18" rx="2" stroke-width="1.7"/><path d="M8 8 h7 M8 12 h7 M8 16 h4" stroke-width="1.7" stroke-linecap="round"/>`},
+    {id:'forum',label:'Forum',cat:'Activité',color:C.green,draw:`<path d="M3 7 a2 2 0 0 1 2 -2 h9 a2 2 0 0 1 2 2 v6 a2 2 0 0 1 -2 2 h-5 l-4 3 v-3 a2 2 0 0 1 -2 -2 z" stroke-width="1.7" stroke-linejoin="round"/>`},
+    {id:'chat',label:'Chat',cat:'Activité',color:C.cyan,draw:`<path d="M4 6 a2 2 0 0 1 2 -2 h12 a2 2 0 0 1 2 2 v8 a2 2 0 0 1 -2 2 h-9 l-5 4 v-4 a2 2 0 0 1 -2 -2 z" stroke-width="1.7" stroke-linejoin="round"/><circle cx="9" cy="10" r=".9" fill="currentColor" stroke="none"/><circle cx="12" cy="10" r=".9" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r=".9" fill="currentColor" stroke="none"/>`},
+    {id:'sondage',label:'Sondage',cat:'Activité',color:C.green,draw:`<path d="M4 20 V12 M10 20 V8 M16 20 V14 M22 20 V4 M3 20 h20" stroke-width="1.8" stroke-linecap="round"/>`},
+    {id:'atelier',label:'Atelier',cat:'Activité',color:C.blue,draw:`<circle cx="12" cy="8" r="3" stroke-width="1.7"/><circle cx="6" cy="11" r="2.2" stroke-width="1.5"/><circle cx="18" cy="11" r="2.2" stroke-width="1.5"/><path d="M5 20 c0 -3 2 -5 7 -5 s7 2 7 5" stroke-width="1.7" stroke-linecap="round" fill="none"/>`},
+    {id:'glossaire',label:'Glossaire',cat:'Activité',color:C.cyan,draw:`<path d="M5 4 h11 a3 3 0 0 1 3 3 v13 a1 1 0 0 1 -1 1 H7 a3 3 0 0 1 -3 -3 V5 a1 1 0 0 1 1 -1 z" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 9 h6 M9 12 h4" stroke-width="1.5" stroke-linecap="round"/>`},
+    {id:'wiki',label:'Wiki',cat:'Activité',color:C.green,draw:`<path d="M3 6 v10 l4 4 V10 z M9 8 v10 l4 4 V12 z M15 6 v10 l4 4 V10 z" stroke-width="1.7" stroke-linejoin="round"/>`},
+  ],
+  resources:[
+    {id:'video',label:'Vidéo',cat:'Ressource',color:C.deep,draw:`<rect x="3" y="5" width="18" height="14" rx="2" stroke-width="1.7"/><polygon points="10,9 16,12 10,15" fill="currentColor" stroke="none"/>`},
+    {id:'audio',label:'Audio',cat:'Ressource',color:C.cyan,draw:`<path d="M5 14 V10 a1 1 0 0 1 1 -1 h2 l4 -3 v12 l-4 -3 H6 a1 1 0 0 1 -1 -1 z M16 9 a4 4 0 0 1 0 6 M18.5 7 a7 7 0 0 1 0 10" stroke-width="1.7" stroke-linejoin="round" fill="none"/>`},
+    {id:'pdf',label:'PDF',cat:'Ressource',color:C.blue,draw:`<path d="M6 3 h8 l5 5 v12 a1 1 0 0 1 -1 1 H6 a1 1 0 0 1 -1 -1 V4 a1 1 0 0 1 1 -1 z M14 3 v5 h5 M9 14 h6 M9 17 h4" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>`},
+    {id:'page',label:'Page',cat:'Ressource',color:C.cyan,draw:`<rect x="5" y="3" width="14" height="18" rx="2" stroke-width="1.7"/><path d="M8 8 h8 M8 12 h8 M8 16 h5" stroke-width="1.5" stroke-linecap="round"/>`},
+    {id:'lien',label:'Lien URL',cat:'Ressource',color:C.green,draw:`<path d="M10 14 a4 4 0 0 1 0 -5.5 l3 -3 a4 4 0 0 1 5.5 5.5 l-1.5 1.5 M14 10 a4 4 0 0 1 0 5.5 l-3 3 a4 4 0 0 1 -5.5 -5.5 l1.5 -1.5" stroke-width="1.7" stroke-linecap="round" fill="none"/>`},
+    {id:'dossier',label:'Dossier',cat:'Ressource',color:C.blue,draw:`<path d="M3 7 a2 2 0 0 1 2 -2 h4 l2 2 h8 a2 2 0 0 1 2 2 v9 a2 2 0 0 1 -2 2 H5 a2 2 0 0 1 -2 -2 z M3 11 h18" stroke-width="1.7" stroke-linejoin="round" fill="none"/>`},
+    {id:'image',label:'Image',cat:'Ressource',color:C.cyan,draw:`<rect x="3" y="4" width="18" height="16" rx="2" stroke-width="1.7"/><circle cx="8.5" cy="9.5" r="1.5" stroke-width="1.5"/><path d="M4 17 l5 -5 4 4 3 -3 4 4" stroke-width="1.6" stroke-linejoin="round" fill="none"/>`},
+    {id:'livre',label:'Livre',cat:'Ressource',color:C.deep,draw:`<path d="M4 5 a1 1 0 0 1 1 -1 h6 a3 3 0 0 1 3 3 v13 a3 3 0 0 0 -3 -3 H5 a1 1 0 0 1 -1 -1 z M20 5 a1 1 0 0 0 -1 -1 h-6 a3 3 0 0 0 -3 3 v13 a3 3 0 0 1 3 -3 h6 a1 1 0 0 0 1 -1 z" stroke-width="1.7" stroke-linejoin="round" fill="none"/>`},
+  ],
+  evaluation:[
+    {id:'progression',label:'Progression',cat:'Suivi',color:C.green,draw:`<path d="M4 18 V6 M4 18 H20" stroke-width="1.7" stroke-linecap="round"/><path d="M7 14 l3 -3 3 2 4 -5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="17" cy="8" r="1.6" fill="currentColor" stroke="none"/>`},
+    {id:'objectif',label:'Objectif',cat:'Suivi',color:C.blue,draw:`<circle cx="12" cy="12" r="9" stroke-width="1.7"/><circle cx="12" cy="12" r="5.5" stroke-width="1.5"/><circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/>`},
+    {id:'note',label:'Note',cat:'Évaluation',color:C.cyan,draw:`<path d="M12 3 l2.6 5.6 6 .6 -4.6 4.2 1.4 6 -5.4 -3.2 -5.4 3.2 1.4 -6 -4.6 -4.2 6 -.6 z" stroke-width="1.6" stroke-linejoin="round"/>`},
+    {id:'completion',label:'Complétion',cat:'Suivi',color:C.green,draw:`<circle cx="12" cy="12" r="9" stroke-width="1.7"/><path d="M8 12 l3 3 5 -6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`},
+    {id:'temps',label:'Temps',cat:'Suivi',color:C.cyan,draw:`<circle cx="12" cy="12" r="9" stroke-width="1.7"/><path d="M12 7 V12 L15 14" stroke-width="1.8" stroke-linecap="round" fill="none"/>`},
+    {id:'feedback',label:'Feedback',cat:'Évaluation',color:C.blue,draw:`<path d="M3 6 a2 2 0 0 1 2 -2 h14 a2 2 0 0 1 2 2 v8 a2 2 0 0 1 -2 2 h-7 l-5 4 v-4 a2 2 0 0 1 -2 -2 z" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 9 l2 2 5 -5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`},
+    {id:'certificat',label:'Certificat',cat:'Évaluation',color:C.deep,draw:`<circle cx="12" cy="10" r="6" stroke-width="1.7"/><path d="M9 10 l2 2 4 -4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M8 15 L6 22 L9 20 L12 22 L15 20 L18 22 L16 15" stroke-width="1.5" stroke-linejoin="round" fill="none"/>`},
+    {id:'module',label:'Module',cat:'Suivi',color:C.green,draw:`<rect x="3" y="3" width="8" height="8" rx="1.5" stroke-width="1.7"/><rect x="13" y="3" width="8" height="8" rx="1.5" stroke-width="1.7"/><rect x="3" y="13" width="8" height="8" rx="1.5" stroke-width="1.7"/><rect x="13" y="13" width="8" height="8" rx="1.5" stroke-width="1.7"/>`},
+  ],
+};
+
+function tint(hex,a){const n=parseInt(hex.slice(1),16);const r=(n>>16)&0xff,g=(n>>8)&0xff,b=n&0xff;const m=c=>Math.round(c+(255-c)*(1-a));return `rgb(${m(r)},${m(g)},${m(b)})`}
+function buildIcon(icon,size,style){
+  const [c1,c2]=icon.color;
+  let stroke='#fff',frame='';
+  if(style==='filled'){frame=`<defs><linearGradient id="g${icon.id}_${style}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs><rect width="${size}" height="${size}" rx="${size*.2}" fill="url(#g${icon.id}_${style})"/>`}
+  else if(style==='outlined'){stroke=c1;frame=`<rect width="${size}" height="${size}" rx="${size*.2}" fill="#f4f9fc" stroke="${c1}" stroke-width="${size*.018}"/>`}
+  else{stroke=c1;frame=`<rect width="${size}" height="${size}" rx="${size*.2}" fill="${tint(c1,.14)}"/>`}
+  const gs=size*.55,off=(size-gs)/2;
+  const inner=`<g transform="translate(${off},${off}) scale(${gs/24})" fill="none" stroke="${stroke}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${icon.draw.replace(/currentColor/g,stroke)}</g>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${frame}${inner}</svg>`;
+}
+
+const STYLE_LABELS={filled:'Style Plein',outlined:'Style Contour',duo:'Style Duotone'};
+const CAT_LABELS={activities:'Activités',resources:'Ressources',evaluation:'Évaluation & Progression'};
+
+function buildSlide(style, num){
+  let body='';
+  for(const cat of Object.keys(ICONS)){
+    body+=`<div class="section-title">${CAT_LABELS[cat]}</div><div class="grid">${ICONS[cat].map(i=>`<div class="card">${buildIcon(i,96,style)}<div class="lbl">${i.label}</div><div class="cat">${i.cat}</div></div>`).join('')}</div>`;
+  }
+  return `<div class="head"><div><div class="eyebrow">CLEAR FA · Icon set Moodle</div><h1>${STYLE_LABELS[style]}<small>24 icônes · activités, ressources, évaluation</small></h1></div><div class="pageno">${String(num).padStart(2,'0')} / 05<small>Charte officielle CLEAR</small></div></div>${body}<div class="footer"><div class="left">CLEAR Evaluation francophone Afrique</div><div>Format SVG / PNG · charte v.MOOC</div></div>`;
+}
+
+document.getElementById('s-filled').innerHTML = buildSlide('filled',3);
+document.getElementById('s-outlined').innerHTML = buildSlide('outlined',4);
+document.getElementById('s-duo').innerHTML = buildSlide('duo',5);
+
+const cover=[ICONS.activities[0],ICONS.activities[1],ICONS.resources[0],ICONS.resources[2],ICONS.evaluation[1],ICONS.evaluation[3]];
+document.getElementById('cover-icons').innerHTML = cover.map(i=>buildIcon(i,96,'filled')).join('');
+
+window.goToSlide = function(idx){
+  document.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active', i===idx));
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CLEAR — Cover Suivi-Évaluation v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap"/>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --blue:#1F6F9E; --blue-d:#0e3d5e; --blue2:#2C8FBF;
+    --cyan:#4FB6D6; --cyan-l:#a8dff0;
+    --green:#8CBF3F; --green2:#A3CF5A;
+    --bg:#F2F2F2; --border:#D9D9D9; --ink:#0d1a26;
+  }
+  body{font-family:'Open Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding:32px}
+  header{max-width:1320px;margin:0 auto 22px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+  .meta-title{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;color:#999;text-transform:uppercase;margin-bottom:6px}
+  .meta-h1{font-family:'Montserrat',sans-serif;font-size:22px;font-weight:800;color:var(--blue-d)}
+  .meta-h1 small{font-weight:400;color:#888;font-size:14px;display:block;margin-top:4px}
+  .actions{display:flex;gap:10px}
+  .btn{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:.04em;padding:10px 20px;border-radius:8px;border:none;cursor:pointer;transition:all .18s}
+  .btn-primary{background:var(--blue);color:#fff}
+  .btn-primary:hover{background:var(--blue2)}
+  .btn-outline{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+  .btn-outline:hover{background:#eef6fb}
+
+  .stage{max-width:1320px;margin:0 auto;background:#fff;border-radius:18px;border:1px solid var(--border);padding:20px;box-shadow:0 4px 24px rgba(31,111,158,.06)}
+  .cover-wrap{aspect-ratio:16/9;border-radius:14px;overflow:hidden;position:relative;background:#0e3d5e}
+  .cover-wrap > .cover{position:absolute;inset:0}
+
+  .info{margin-top:14px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#888}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:var(--bg);border-radius:100px;font-family:'Montserrat',sans-serif;font-weight:600;font-size:11px;letter-spacing:.04em;color:var(--blue)}
+
+  .variants{max-width:1320px;margin:24px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .variant{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:8px;cursor:pointer;transition:all .18s;overflow:hidden}
+  .variant:hover{border-color:var(--cyan);transform:translateY(-2px);box-shadow:0 6px 18px rgba(31,111,158,.08)}
+  .variant.active{border-color:var(--blue);box-shadow:0 0 0 2px rgba(31,111,158,.18)}
+  .variant .thumb{aspect-ratio:16/9;border-radius:6px;overflow:hidden;position:relative;background:#0e3d5e}
+  .variant .thumb > div{position:absolute;inset:0}
+  .variant-label{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:#555;margin-top:8px;padding:0 4px;letter-spacing:.04em}
+
+  /* ── Cover composition styles ─────────────────────────────────────────── */
+  .cv{position:absolute;inset:0;overflow:hidden}
+
+  /* Photo layer with duotone */
+  .photo{
+    position:absolute;inset:0;
+    background-size:cover;background-position:center;
+  }
+  .photo::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg, rgba(14,61,94,.85) 0%, rgba(31,111,158,.55) 50%, rgba(79,182,214,.35) 100%);
+    mix-blend-mode:multiply;
+  }
+  .photo::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg,#1F6F9E 0%,#4FB6D6 100%);
+    mix-blend-mode:screen;
+    opacity:.4;
+  }
+
+  .grain{position:absolute;inset:0;opacity:.05;mix-blend-mode:overlay;pointer-events:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='.5'/></svg>");
+  }
+
+  /* Brand bar */
+  .brandbar{
+    position:absolute;top:0;left:0;right:0;height:6px;
+    background:linear-gradient(90deg,#1F6F9E 0%,#4FB6D6 50%,#8CBF3F 100%);
+  }
+
+  /* Logo strip */
+  .logo-strip{
+    position:absolute;top:24px;left:32px;
+    display:flex;align-items:center;gap:14px;
+    font-family:'Montserrat',sans-serif;color:#fff;
+  }
+  .logo-mark{
+    width:36px;height:36px;border-radius:8px;
+    background:#fff;display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:13px;color:#1F6F9E;letter-spacing:-.5px;
+  }
+  .logo-text{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;line-height:1.4}
+  .logo-text small{display:block;font-weight:400;font-size:9px;letter-spacing:.1em;opacity:.7;text-transform:none}
+
+  /* Bottom-right course meta */
+  .course-meta{
+    position:absolute;bottom:24px;right:32px;
+    font-family:'Montserrat',sans-serif;color:#fff;font-size:10px;font-weight:600;
+    letter-spacing:.18em;text-transform:uppercase;text-align:right;line-height:1.6;
+  }
+  .course-meta small{display:block;font-weight:400;font-size:9px;letter-spacing:.1em;opacity:.6;text-transform:none}
+
+  /* ── V1: Dashboard floating + photo ───────────────────────────────────── */
+  .v-dashboard .photo{filter:saturate(.85)}
+  .v-dashboard .left-block{
+    position:absolute;left:6%;top:30%;width:44%;color:#fff;
+    font-family:'Montserrat',sans-serif;
+  }
+  .v-dashboard .eyebrow{
+    font-size:10px;letter-spacing:.32em;font-weight:600;
+    color:#A3CF5A;text-transform:uppercase;margin-bottom:14px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .v-dashboard .eyebrow::before{
+    content:'';width:32px;height:2px;background:#A3CF5A;
+  }
+  .v-dashboard h1{
+    font-size:54px;font-weight:800;line-height:1.05;
+    margin-bottom:12px;letter-spacing:-1px;
+  }
+  .v-dashboard h1 .accent{color:#A3CF5A}
+  .v-dashboard .sub{
+    font-family:'Open Sans',sans-serif;font-size:15px;font-weight:400;
+    line-height:1.55;opacity:.85;max-width:380px;
+  }
+  .v-dashboard .dash{
+    position:absolute;right:5%;top:18%;width:42%;
+    background:#fff;border-radius:14px;box-shadow:0 30px 60px rgba(0,0,0,.35);
+    padding:22px;transform:rotate(-2deg);
+  }
+  .v-dashboard .dash-2{
+    position:absolute;right:8%;top:55%;width:30%;
+    background:#fff;border-radius:14px;box-shadow:0 20px 40px rgba(0,0,0,.35);
+    padding:16px;transform:rotate(3deg);
+  }
+  .dh-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .dh-title{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:#1F6F9E;letter-spacing:.08em;text-transform:uppercase}
+  .dh-dot{width:8px;height:8px;border-radius:50%;background:#8CBF3F}
+  .kpi-row{display:flex;gap:8px;margin-bottom:14px}
+  .kpi{flex:1;background:#f4f9fc;border-radius:8px;padding:8px 10px}
+  .kpi-l{font-size:9px;color:#999;text-transform:uppercase;font-family:'Montserrat',sans-serif;font-weight:600;letter-spacing:.06em;margin-bottom:2px}
+  .kpi-v{font-family:'Montserrat',sans-serif;font-weight:800;font-size:18px;color:#1F6F9E}
+  .kpi:nth-child(2) .kpi-v{color:#4FB6D6}
+  .kpi:nth-child(3) .kpi-v{color:#8CBF3F}
+  .chart-svg{width:100%;height:90px;display:block}
+  .legend{display:flex;gap:12px;margin-top:8px;font-size:9px;color:#888;font-family:'Montserrat',sans-serif;font-weight:600}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
+
+  .progress-row{margin-bottom:8px}
+  .progress-row .lbl{font-size:9px;color:#666;font-family:'Montserrat',sans-serif;font-weight:600;letter-spacing:.04em;display:flex;justify-content:space-between;margin-bottom:3px}
+  .progress-row .bar{height:6px;background:#e5eef3;border-radius:3px;overflow:hidden}
+  .progress-row .bar i{display:block;height:100%;border-radius:3px;background:#1F6F9E}
+
+  /* ── V2: Editorial split, big portrait with overlay accents ───────────── */
+  .v-editorial .photo{
+    background-position:right center;
+  }
+  .v-editorial .photo::after{
+    background:linear-gradient(90deg, rgba(14,61,94,.95) 0%, rgba(14,61,94,.7) 35%, rgba(14,61,94,.1) 65%, transparent 100%);
+    mix-blend-mode:normal;
+  }
+  .v-editorial .photo::before{display:none}
+  .v-editorial .left{
+    position:absolute;left:7%;top:0;bottom:0;width:48%;
+    display:flex;flex-direction:column;justify-content:center;
+    color:#fff;font-family:'Montserrat',sans-serif;
+  }
+  .v-editorial .eyebrow{
+    font-size:10px;letter-spacing:.32em;font-weight:600;color:#A3CF5A;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:10px;
+  }
+  .v-editorial .eyebrow::before{content:'';width:36px;height:2px;background:#A3CF5A}
+  .v-editorial h1{font-size:60px;font-weight:800;line-height:1.02;margin-bottom:16px;letter-spacing:-1.5px}
+  .v-editorial h1 em{font-style:normal;color:#A3CF5A}
+  .v-editorial .sub{font-family:'Open Sans',sans-serif;font-size:16px;line-height:1.55;opacity:.85;max-width:440px;font-weight:400;margin-bottom:26px}
+  .v-editorial .tags{display:flex;gap:8px;flex-wrap:wrap}
+  .v-editorial .tag{
+    font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    padding:6px 14px;border:1.5px solid rgba(255,255,255,.4);border-radius:100px;color:#fff;
+  }
+  .v-editorial .tag.fill{background:#8CBF3F;border-color:#8CBF3F;color:#0e3d5e}
+
+  .v-editorial .deco-card{
+    position:absolute;right:7%;bottom:14%;width:24%;
+    background:#fff;border-radius:14px;padding:18px;box-shadow:0 24px 50px rgba(0,0,0,.3);
+  }
+  .v-editorial .deco-card .num{
+    font-family:'Montserrat',sans-serif;font-weight:800;font-size:42px;color:#1F6F9E;line-height:1;
+  }
+  .v-editorial .deco-card .num em{font-style:normal;color:#8CBF3F}
+  .v-editorial .deco-card .num small{font-size:18px;font-weight:700;color:#4FB6D6}
+  .v-editorial .deco-card .lbl{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;color:#888;letter-spacing:.1em;text-transform:uppercase;margin-top:6px}
+  .v-editorial .deco-card .trend{margin-top:10px}
+
+  /* ── V3: Diagonal block layout ────────────────────────────────────────── */
+  .v-diagonal .photo{filter:saturate(.95)}
+  .v-diagonal .photo::after{
+    background:linear-gradient(110deg, rgba(14,61,94,.92) 0%, rgba(31,111,158,.6) 45%, rgba(79,182,214,.3) 70%, rgba(140,191,63,.4) 100%);
+    mix-blend-mode:multiply;
+  }
+  .v-diagonal .diag{
+    position:absolute;left:-5%;top:0;bottom:0;width:65%;
+    background:linear-gradient(180deg,rgba(14,61,94,.95),rgba(31,111,158,.92));
+    transform:skewX(-8deg);transform-origin:bottom left;
+    box-shadow:8px 0 40px rgba(0,0,0,.25);
+  }
+  .v-diagonal .diag::after{
+    content:'';position:absolute;right:-2px;top:0;bottom:0;width:6px;
+    background:linear-gradient(180deg,#A3CF5A,#8CBF3F,#4FB6D6);
+  }
+  .v-diagonal .content{
+    position:absolute;left:7%;top:0;bottom:0;width:50%;
+    display:flex;flex-direction:column;justify-content:center;
+    color:#fff;font-family:'Montserrat',sans-serif;z-index:2;
+  }
+  .v-diagonal .badge-pill{
+    align-self:flex-start;
+    background:#A3CF5A;color:#0e3d5e;
+    font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+    padding:7px 16px;border-radius:100px;margin-bottom:18px;
+  }
+  .v-diagonal h1{font-size:62px;font-weight:800;line-height:1;margin-bottom:14px;letter-spacing:-1.5px}
+  .v-diagonal h1 .br{display:block}
+  .v-diagonal .sub{font-family:'Open Sans',sans-serif;font-size:15px;line-height:1.55;opacity:.85;max-width:430px;font-weight:400}
+
+  .v-diagonal .icons{position:absolute;left:7%;bottom:9%;display:flex;gap:14px;z-index:2}
+  .v-diagonal .icon-card{
+    width:64px;height:64px;border-radius:12px;background:rgba(255,255,255,.1);
+    border:1.5px solid rgba(255,255,255,.25);
+    display:flex;align-items:center;justify-content:center;
+    backdrop-filter:blur(8px);
+  }
+
+  .v-diagonal .stats{
+    position:absolute;right:5%;top:50%;transform:translateY(-50%);
+    width:32%;display:flex;flex-direction:column;gap:10px;z-index:2;
+  }
+  .v-diagonal .stat{
+    background:rgba(255,255,255,.95);border-radius:12px;padding:14px 18px;
+    box-shadow:0 14px 30px rgba(0,0,0,.25);
+  }
+  .v-diagonal .stat .v{font-family:'Montserrat',sans-serif;font-weight:800;font-size:30px;color:#1F6F9E;line-height:1}
+  .v-diagonal .stat .v.green{color:#8CBF3F}
+  .v-diagonal .stat .v.cyan{color:#4FB6D6}
+  .v-diagonal .stat .l{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;color:#888;letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="meta-title">CLEAR · MOOC Cover · v2 — photo + composition pro</div>
+    <div class="meta-h1">Le Suivi-Évaluation pour les Nuls<small>3 directions éditoriales avec photographies stock + dashboard CLEAR</small></div>
+  </div>
+  <div class="actions">
+    <button class="btn btn-outline" onclick="exportPNG()">⬇ PNG 1920×1080</button>
+    <button class="btn btn-primary" onclick="window.print()">Imprimer / PDF</button>
+  </div>
+</header>
+
+<div class="stage">
+  <div class="cover-wrap" id="cover-wrap"></div>
+  <div class="info">
+    <div style="display:flex;gap:8px">
+      <span class="pill">● Photo réelle</span>
+      <span class="pill">● Duotone CLEAR</span>
+      <span class="pill">● Composition éditoriale</span>
+    </div>
+    <div>1920 × 1080 · cliquez sur une variante ↓</div>
+  </div>
+</div>
+
+<div class="variants" id="variants"></div>
+
+<script>
+// ── Photo URLs (Unsplash, free, African professionals / collaboration) ─────
+const PHOTOS = {
+  team: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?w=1920&q=80',
+  presenting: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=1920&q=80',
+  collab: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1920&q=80',
+  workshop: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1920&q=80',
+};
+
+// ── Variants ───────────────────────────────────────────────────────────────
+const VARIANTS = [
+  {
+    id:'dashboard',
+    label:'01 · Dashboard pro + photo',
+    render: () => `
+      <div class="cv v-dashboard">
+        <div class="photo" style="background-image:url('${PHOTOS.team}')"></div>
+        <div class="grain"></div>
+        <div class="brandbar"></div>
+        <div class="left-block">
+          <div class="eyebrow">MOOC · Module d'introduction</div>
+          <h1>Le Suivi-<br/>Évaluation <span class="accent">pour les Nuls</span></h1>
+          <div class="sub">Maîtriser les fondamentaux du S&E : indicateurs, cadre logique, collecte de données et reporting.</div>
+        </div>
+
+        <div class="dash">
+          <div class="dh-row">
+            <div class="dh-title">Tableau de bord S&E</div>
+            <div class="dh-dot"></div>
+          </div>
+          <div class="kpi-row">
+            <div class="kpi"><div class="kpi-l">Indicateurs</div><div class="kpi-v">68%</div></div>
+            <div class="kpi"><div class="kpi-l">Progression</div><div class="kpi-v">+24</div></div>
+            <div class="kpi"><div class="kpi-l">Cibles</div><div class="kpi-v">12/15</div></div>
+          </div>
+          <svg class="chart-svg" viewBox="0 0 320 90" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="cg1" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#4FB6D6"/><stop offset="100%" stop-color="#8CBF3F"/>
+              </linearGradient>
+              <linearGradient id="cg2" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#4FB6D6" stop-opacity=".3"/>
+                <stop offset="100%" stop-color="#4FB6D6" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M0 88 L0 65 Q40 60 70 50 T140 32 T220 18 T320 8 L320 88 Z" fill="url(#cg2)"/>
+            <path d="M0 65 Q40 60 70 50 T140 32 T220 18 T320 8" fill="none" stroke="url(#cg1)" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="320" cy="8" r="5" fill="#8CBF3F"/>
+            ${[0,1,2,3,4,5,6].map(i=>`<line x1="${i*45+10}" y1="0" x2="${i*45+10}" y2="90" stroke="#eef4f8" stroke-width="1"/>`).join('')}
+          </svg>
+          <div class="legend">
+            <span><i style="background:#4FB6D6"></i>Réalisé</span>
+            <span><i style="background:#8CBF3F"></i>Cible</span>
+          </div>
+        </div>
+
+        <div class="dash-2">
+          <div class="dh-title" style="margin-bottom:10px">Indicateurs clés</div>
+          <div class="progress-row"><div class="lbl"><span>Effets</span><span>85%</span></div><div class="bar"><i style="width:85%;background:#1F6F9E"></i></div></div>
+          <div class="progress-row"><div class="lbl"><span>Produits</span><span>62%</span></div><div class="bar"><i style="width:62%;background:#4FB6D6"></i></div></div>
+          <div class="progress-row"><div class="lbl"><span>Activités</span><span>94%</span></div><div class="bar"><i style="width:94%;background:#8CBF3F"></i></div></div>
+        </div>
+
+        <div class="course-meta">CESAG · GEI<small>Charte officielle CLEAR FA</small></div>
+      </div>
+    `,
+  },
+  {
+    id:'editorial',
+    label:'02 · Éditorial — portrait',
+    render: () => `
+      <div class="cv v-editorial">
+        <div class="photo" style="background-image:url('${PHOTOS.presenting}')"></div>
+        <div class="grain"></div>
+        <div class="brandbar"></div>
+        <div class="left">
+          <div class="eyebrow">Formation · Niveau débutant</div>
+          <h1>Le Suivi-<br/>Évaluation,<br/><em>simplement.</em></h1>
+          <div class="sub">Une introduction claire et pragmatique aux concepts, méthodes et outils du suivi-évaluation, conçue pour les acteurs du développement en Afrique francophone.</div>
+          <div class="tags">
+            <span class="tag fill">MOOC</span>
+            <span class="tag">8 modules</span>
+            <span class="tag">12 heures</span>
+            <span class="tag">Certifiant</span>
+          </div>
+        </div>
+
+        <div class="deco-card">
+          <div class="num">94<em>%</em></div>
+          <div class="lbl">de réussite</div>
+          <svg class="trend" viewBox="0 0 200 50" preserveAspectRatio="none" style="width:100%;height:38px">
+            <defs>
+              <linearGradient id="trg" x1="0" y1="1" x2="0" y2="0">
+                <stop offset="0%" stop-color="#8CBF3F" stop-opacity=".15"/>
+                <stop offset="100%" stop-color="#8CBF3F" stop-opacity=".5"/>
+              </linearGradient>
+            </defs>
+            <path d="M0 40 Q40 35 60 28 T120 18 T200 6 L200 50 L0 50 Z" fill="url(#trg)"/>
+            <path d="M0 40 Q40 35 60 28 T120 18 T200 6" fill="none" stroke="#8CBF3F" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="200" cy="6" r="4" fill="#8CBF3F"/>
+          </svg>
+        </div>
+
+        <div class="course-meta">CESAG · GEI<small>www.clear-fa.org</small></div>
+      </div>
+    `,
+  },
+  {
+    id:'diagonal',
+    label:'03 · Diagonale — impact',
+    render: () => `
+      <div class="cv v-diagonal">
+        <div class="photo" style="background-image:url('${PHOTOS.collab}')"></div>
+        <div class="grain"></div>
+        <div class="diag"></div>
+        <div class="brandbar"></div>
+        <div class="content">
+          <div class="badge-pill">Nouveau MOOC 2026</div>
+          <h1>Le Suivi-<br/><span class="br">Évaluation</span><br/>pour les Nuls.</h1>
+          <div class="sub">Comprendre, mesurer, agir. Une formation de référence pour démystifier le S&E et passer à l'action sur le terrain.</div>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><div class="v">68<small style="font-size:18px">%</small></div><div class="l">Indicateurs atteints</div></div>
+          <div class="stat"><div class="v cyan">+24</div><div class="l">Évolution mensuelle</div></div>
+          <div class="stat"><div class="v green">12<span style="color:#bbb">/15</span></div><div class="l">Cibles validées</div></div>
+        </div>
+
+        <div class="icons">
+          <div class="icon-card">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#A3CF5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/><polyline points="8 11 10.5 13.5 14 9.5"/></svg>
+          </div>
+          <div class="icon-card">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#A3CF5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <div class="icon-card">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#A3CF5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="20" x2="21" y2="20"/><polyline points="6 16 10 10 14 13 20 5"/></svg>
+          </div>
+        </div>
+
+        <div class="course-meta" style="color:#fff">CESAG · GEI<small>Charte officielle CLEAR FA</small></div>
+      </div>
+    `,
+  },
+];
+
+let currentVariant = VARIANTS[0].id;
+
+function render(){
+  const v = VARIANTS.find(x=>x.id===currentVariant);
+  document.getElementById('cover-wrap').innerHTML = v.render();
+}
+
+function renderVariants(){
+  const wrap = document.getElementById('variants');
+  wrap.innerHTML = VARIANTS.map(v=>`
+    <div class="variant ${v.id===currentVariant?'active':''}" data-id="${v.id}">
+      <div class="thumb">${v.render()}</div>
+      <div class="variant-label">${v.label}</div>
+    </div>
+  `).join('');
+  wrap.querySelectorAll('.variant').forEach(el=>{
+    el.addEventListener('click',()=>{
+      currentVariant = el.dataset.id;
+      render();
+      document.querySelectorAll('.variant').forEach(v=>v.classList.toggle('active', v.dataset.id===currentVariant));
+    });
+  });
+}
+
+async function exportPNG(){
+  const node = document.getElementById('cover-wrap');
+  // Use html-to-image via dynamic import
+  if(!window.htmlToImage){
+    const s = document.createElement('script');
+    s.src = 'https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.js';
+    document.head.appendChild(s);
+    await new Promise(r=>s.onload=r);
+  }
+  const dataUrl = await window.htmlToImage.toPng(node, { width:1920, height:1080, pixelRatio:1, canvasWidth:1920, canvasHeight:1080, style:{ width:'1920px', height:'1080px' } });
+  const a = document.createElement('a');
+  a.download = `CLEAR_cover_${currentVariant}_1920.png`;
+  a.href = dataUrl;
+  a.click();
+}
+
+render();
+renderVariants();
+</script>
+</body>
+</html>
