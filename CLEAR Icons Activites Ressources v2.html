@@ -524,6 +524,9 @@ function svgToPngBlob(svgString, size){
 }
 
 function sanitizeForFilename(value){
+  const cleaned = String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const safe = cleaned.replace(/[^a-z0-9_-]+/gi, '_').replace(/^_+|_+$/g, '');
+  return safe || 'icon';
   return String(value).replace(/[^a-z0-9_-]+/gi, '_').replace(/^_+|_+$/g, '');
 }
 
@@ -557,12 +560,23 @@ async function exportAllZip(format, btn){
       const safeCat = sanitizeForFilename(cat);
       const safeIcon = sanitizeForFilename(icon.id);
       const svg = buildIconSVG(icon, size, styleAtExport);
+      const uniquePrefix = String(i + 1).padStart(3, '0');
+      const filenameBase = `${safeCat}/CLEAR_${uniquePrefix}_${safeCat}_${safeIcon}_${styleAtExport}`;
       const filenameBase = `${safeCat}/CLEAR_${safeCat}_${safeIcon}_${styleAtExport}`;
 
       try {
         if(format === 'svg'){
           zip.file(`${filenameBase}.svg`, svg);
         } else {
+          try {
+            const pngBlob = await svgToPngBlob(svg, size);
+            zip.file(`${filenameBase}.png`, pngBlob);
+          } catch (pngErr){
+            // Fallback: keep icon in ZIP as SVG if PNG conversion fails.
+            zip.file(`${filenameBase}.svg`, svg);
+            failures.push(`${cat}/${icon.id}: PNG fallback to SVG (${pngErr.message || pngErr})`);
+            console.warn('PNG conversion failed, SVG fallback used:', cat, icon.id, pngErr);
+          }
           const pngBlob = await svgToPngBlob(svg, size);
           zip.file(`${filenameBase}.png`, pngBlob);
         }
