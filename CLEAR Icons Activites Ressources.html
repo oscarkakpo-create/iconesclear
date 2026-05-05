@@ -442,6 +442,7 @@ function sanitizeForFilename(value){
   const cleaned = String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   const safe = cleaned.replace(/[^a-z0-9_-]+/gi, '_').replace(/^_+|_+$/g, '');
   return safe || 'icon';
+  return String(value).replace(/[^a-z0-9_-]+/gi, '_').replace(/^_+|_+$/g, '');
 }
 
 let isZipExportRunning = false;
@@ -459,10 +460,11 @@ async function exportAllZip(format, btn){
   const styleAtExport = currentStyle;
   const entries = [];
   for(const cat of Object.keys(ICONS)){
-    ICONS[cat].forEach(icon => entries.push({ cat, icon }));
+    ICONS[cat].forEach(icon => entries.push({cat, icon}));
   }
   const total = entries.length;
   const size = 256;
+  const failures = [];
 
   try {
     const JSZip = await loadJSZip();
@@ -475,13 +477,37 @@ async function exportAllZip(format, btn){
       const svg = buildIconSVG(icon, size, styleAtExport);
       const uniquePrefix = String(i + 1).padStart(3, '0');
       const filenameBase = `${safeCat}/CLEAR_${uniquePrefix}_${safeCat}_${safeIcon}_${styleAtExport}`;
+      const filenameBase = `${safeCat}/CLEAR_${safeCat}_${safeIcon}_${styleAtExport}`;
 
-      zip.file(`${filenameBase}.svg`, svg);
+      try {
+        if(format === 'svg'){
+          zip.file(`${filenameBase}.svg`, svg);
+        } else {
+          try {
+            const pngBlob = await svgToPngBlob(svg, size);
+            zip.file(`${filenameBase}.png`, pngBlob);
+          } catch (pngErr){
+            // Fallback: keep icon in ZIP as SVG if PNG conversion fails.
+            zip.file(`${filenameBase}.svg`, svg);
+            failures.push(`${cat}/${icon.id}: PNG fallback to SVG (${pngErr.message || pngErr})`);
+            console.warn('PNG conversion failed, SVG fallback used:', cat, icon.id, pngErr);
+          }
+          const pngBlob = await svgToPngBlob(svg, size);
+          zip.file(`${filenameBase}.png`, pngBlob);
+        }
+      } catch (iconErr){
+        failures.push(`${cat}/${icon.id}: ${iconErr.message || iconErr}`);
+        console.warn('Icon export failed:', cat, icon.id, iconErr);
+      }
 
       btn.textContent = `Génération… ${i + 1}/${total}`;
-      if(i % 40 === 0){
+      if(i % 20 === 0){
         await new Promise(requestAnimationFrame);
       }
+    }
+
+    if(failures.length){
+      zip.file('EXPORT_ERRORS.txt', failures.join('\n'));
     }
 
     btn.textContent = 'Compression…';
@@ -494,16 +520,17 @@ async function exportAllZip(format, btn){
     const link = document.createElement('a');
     const zipUrl = URL.createObjectURL(zipBlob);
     link.href = zipUrl;
-    link.download = `CLEAR_icons_${styleAtExport}_svg.zip`;
+    link.download = `CLEAR_icons_${styleAtExport}_${format}.zip`;
     document.body.appendChild(link);
     link.click();
     link.remove();
     setTimeout(() => URL.revokeObjectURL(zipUrl), 2000);
 
-    if(format !== 'svg'){
-      showToast(`✓ ${total} icônes exportées en SVG (ZIP fiabilisé)`);
+    const successCount = total - failures.length;
+    if(failures.length){
+      showToast(`⚠ ${successCount}/${total} icônes exportées (détails dans EXPORT_ERRORS.txt)`);
     } else {
-      showToast(`✓ ${total} icônes téléchargées en ZIP`);
+      showToast(`✓ ${successCount} icônes téléchargées en ZIP`);
     }
   } catch(err){
     console.error(err);
